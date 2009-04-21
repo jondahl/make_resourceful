@@ -1,4 +1,5 @@
 class ResourcefulScaffoldGenerator < Rails::Generator::NamedBase
+  attr_accessor :framework
   attr_reader   :controller_class_path,
                 :controller_file_path,
                 :controller_class_nesting,
@@ -34,9 +35,7 @@ class ResourcefulScaffoldGenerator < Rails::Generator::NamedBase
       m.directory(File.join('app/helpers', controller_class_path))
       m.directory(File.join('app/views', controller_class_path, controller_file_name))
       m.directory(File.join('test/functional', controller_class_path))
-      m.directory(File.join('test/unit', class_path))
-      m.directory(File.join('test/fixtures', class_path))
-
+   
       # Views
       for action in scaffold_views
         m.template("view_#{action}.haml", File.join('app/views', controller_class_path, controller_file_name, "#{action}.html.haml"))
@@ -61,17 +60,33 @@ class ResourcefulScaffoldGenerator < Rails::Generator::NamedBase
       # Controller
       m.template('controller.rb', File.join('app/controllers', controller_class_path, "#{controller_file_name}_controller.rb"))      
 
-      # Tests
-      m.template('functional_test.rb', File.join('test/functional', controller_class_path, "#{controller_file_name}_controller_test.rb"))
-      m.template('unit_test.rb',       File.join('test/unit', class_path, "#{file_name}_test.rb"))
-      m.template('fixtures.yml',       File.join('test/fixtures', "#{table_name}.yml"))
+      # Specs or Tests
+      if framework == :rspec  
+        m.directory(File.join('spec/controllers', controller_class_path))
+        m.directory(File.join('spec/helpers', class_path))
+        m.directory(File.join('spec/models'))
+        
+        m.template 'controller_spec.rb', File.join('spec/controllers', controller_class_path, "#{controller_file_name}_controller_spec.rb")
+        m.template 'helper_spec.rb', File.join('spec/helpers', class_path, "#{controller_file_name}_helper_spec.rb")    
+        m.template 'model_spec.rb',  File.join('spec/models', "#{@controller_singular_name}_spec.rb")        
+      else
+        m.directory(File.join('test/unit', class_path))
+        m.directory(File.join('test/fixtures', class_path))
+        m.template('functional_test.rb', File.join('test/functional', controller_class_path, "#{controller_file_name}_controller_test.rb"))
+        m.template('unit_test.rb',       File.join('test/unit', class_path, "#{file_name}_test.rb"))
+        m.template('fixtures.yml',       File.join('test/fixtures', "#{table_name}.yml"))
+      end
 
       # Route
       m.route_resources controller_file_name
     end
   end
 
-  protected
+  def framework
+    options[:framework] || :testunit
+  end
+  
+protected
   
   def banner
     "Usage: #{$0} resourcefulscaffold ModelName [field:type, field:type]"
@@ -84,4 +99,19 @@ class ResourcefulScaffoldGenerator < Rails::Generator::NamedBase
   def model_name 
     class_name.demodulize
   end
+  
+  def add_options!(opt)
+    opt.separator ''
+    opt.separator 'Options:'
+    
+    opt.on('--testunit', 'Setup for use with test/unit (default)') do |value|
+      options[:framework] = :testunit
+    end
+    
+    opt.on('--rspec', 'Setup for use with RSpec') do |value|
+      options[:framework] = :rspec
+    end
+  
+  end
+  
 end

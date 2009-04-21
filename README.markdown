@@ -1,5 +1,7 @@
-= make_resourceful
-===== Take back control of your Controllers. Make them awesome. Make them sleek. Make them resourceful.
+make_resourceful
+=============================
+
+Take back control of your Controllers. Make them awesome. Make them sleek. Make them resourceful.
 
 REST is a fine pattern for designing controllers,
 but it can be pretty repetitive.
@@ -14,8 +16,9 @@ Of course, no controller _only_ uses the defaults.
 So make_resourceful can be massively customized,
 while still keeping your controllers trim and readable.
 
-== Get it!
- 
+Get it!
+===============================
+
 Rails
 
   $ ruby script/plugin install http://svn.hamptoncatlin.com/make_resourceful/trunk
@@ -25,13 +28,14 @@ Subversion
 
   $ svn co http://svn.hamptoncatlin.com/make_resourceful/trunk make_resourceful
 
-== Use it!
+Use it!
+===============================
 
 The easiest way to start with make_resourceful
 is to run the resource_scaffold generator.
 It uses the same syntax as the Rails scaffold_resource generator:
 
-  $ script/generate resource_scaffold post title:string body:text
+  $ script/generate resource_scaffold [--testunit|--rspec] post title:string body:text
 
 It does, however, require Haml[http://haml.hamptoncatlin.com].
 You _are_ using Haml, right? No?
@@ -49,31 +53,36 @@ just replace the mess of repetition with this:
 Those three lines will replace the entire default controller
 that comes out of the scaffold_resource generator.
 
-=== Really?
+Really?
+--------------------------
 
 Yes.
 
-=== Can I do nested resources?
+Can I do nested resources?
+--------------------------
 
   make_resourceful do
     actions :all
     belongs_to :post
   end
 
-=== What if I want to use fancy permalinks?
+What if I want to use fancy permalinks?
+--------------------------
 
   def current_object
     @current_object ||= current_model.find_by_permalink(params[:id])
   end
 
-=== What about paging?
+What about paging?
+--------------------------
 
   def current_objects
     @current_object ||= current_model.find(:all,
       :order => "created_at DESC", :page => {:current => params[:page], :size => 10 } )
   end
 
-=== What if I want to do something in the middle of an action?
+What if I want to do something in the middle of an action?
+--------------------------
 
   before :show, :index do
     @page_title = "Awesome!"
@@ -83,7 +92,8 @@ Yes.
     @page_title = "Not So Awesome!"
   end
 
-=== What about all of my awesome respond_to blocks for my XML APIs and RJS responses?
+What about all of my awesome respond_to blocks for my XML APIs and RJS responses?
+--------------------------
 
   response_for :show do |format|
     format.html
@@ -96,18 +106,22 @@ Yes.
     format.json { render :json => false.to_json, :status => 422 }
   end
 
-=== So I guess I have to write responses for all my actions?
+So I guess I have to write responses for all my actions?
+--------------------------
 
 Nope! make_resourceful makes them do the right thing by default.
 You only need to customize them if you want to do something special.
 
-=== Seriously?!
+Seriously?!
+--------------------------
 
 Yes!
 
-== Grok it!
+Grok it!
+===============================
 
-=== +make_resourceful+ the Method
++make_resourceful+ the Method
+===============================
 
 The +make_resourceful+ block is where most of the action happens.
 Here you specify which actions you want to auto-generate,
@@ -122,7 +136,8 @@ you'd call +publish+.
 Check out the documentation of Resourceful::Builder
 for more information on the methods you can call here.
 
-=== Helper Methods
+Helper Methods
+===============================
 
 make_resourceful provides lots of useful methods
 that can be used in your callbacks and in your views.
@@ -140,7 +155,8 @@ and returns the record that's currently being dealt with.
 The full documentation of the helper methods
 is in Resourceful::Default::Accessors and Resourceful::Default::URLs.
 
-=== Nested Resources
+Nested Resources
+===============================
 
 make_resourceful supports easy management of nested resources.
 This is set up with the Resourceful::Builder#belongs_to declaration.
@@ -180,7 +196,8 @@ it should be easy enough to set up on your own.
 Just override current_model[link:classes/Resourceful/Default/Accessors.html#M000018].
 See the next section for more details.
 
-=== Overriding Methods
+Overriding Methods
+===============================
 
 Not only are helper methods useful to the developer to use,
 they're used internally by the actions created by make_resourceful.
@@ -202,7 +219,8 @@ For instance,
     @current_object ||= current_model.find_by_name(params[:name])
   end
 
-=== For More Information...
+For More Information...
+===============================
 
 Haven't found all the information you need in the RDoc?
 Still a little confused about something?
@@ -223,7 +241,7 @@ Don't despair, there are still more resources available!
   and make_resourceful is built to encourage overriding methods
   and hacking the source.
 
----
+--------------------------
 
 Copyright 2007 Hampton Catlin, Nathan Weizenbaum, and Jeff Hardy.
 
@@ -238,3 +256,4 @@ Contributions by:
 * Alex Ross
 * Tom Stuart
 * Glenn Powell
+* Kosmas Schütz
