@@ -6,7 +6,9 @@ class ResourcefulScaffoldGenerator < Rails::Generator::NamedBase
                 :controller_class_nesting_depth,
                 :controller_class_name,
                 :controller_underscore_name,
-                :controller_plural_name
+                :controller_plural_name,
+                # Functional names
+                :route_base_name
   alias_method  :controller_file_name,  :controller_underscore_name
   alias_method  :controller_table_name, :controller_plural_name
 
@@ -21,6 +23,7 @@ class ResourcefulScaffoldGenerator < Rails::Generator::NamedBase
     else
       @controller_class_name = "#{@controller_class_nesting}::#{@controller_class_name_without_nesting}"
     end
+     @route_base_name = @name.pluralize.underscore
   end
   
   def manifest
@@ -68,7 +71,7 @@ class ResourcefulScaffoldGenerator < Rails::Generator::NamedBase
         
         m.template 'controller_spec.rb', File.join('spec/controllers', controller_class_path, "#{controller_file_name}_controller_spec.rb")
         m.template 'helper_spec.rb', File.join('spec/helpers', class_path, "#{controller_file_name}_helper_spec.rb")    
-        m.template 'model_spec.rb',  File.join('spec/models', "#{@controller_singular_name}_spec.rb")        
+        m.template 'model_spec.rb',  File.join('spec/models', "#{file_name}_spec.rb")        
       else
         m.directory(File.join('test/unit', class_path))
         m.directory(File.join('test/fixtures', class_path))
