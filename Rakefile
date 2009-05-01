@@ -59,7 +59,6 @@ namespace :cruise do
     out = ENV['CC_BUILD_ARTIFACTS']
     mkdir_p out unless File.directory? out if out
     system "rake #{task_name}"
-    mv 'coverage', "#{out}/RSpec Coverage" if out
     puts "[CruiseControl] Finished rake task #{task_name.inspect}\n\n"
   end
 end
