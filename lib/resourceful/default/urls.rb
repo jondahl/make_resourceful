@@ -12,9 +12,13 @@ module Resourceful
       #   object_path    #=> "/hats/12"
       #   hat_path(@hat) #=> "/hats/12"
       # 
-      def object_path(object = current_object); object_route(object, 'path'); end
+      def object_path(object = current_object)
+        polymorphic_path(object)
+      end
       # Same as object_path, but with the protocol and hostname.
-      def object_url (object = current_object); object_route(object, 'url');  end
+      def object_url (object = current_object)
+        polymorphic_url(object)
+      end
 
       # This is the same as object_path,
       # unless a parent exists.
