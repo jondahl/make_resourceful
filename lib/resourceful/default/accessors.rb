@@ -246,7 +246,6 @@ module Resourceful
       #
       # FIXME - Perhaps this logic should be moved to parent?() or another init method
       def parent_name
-        return @parent_name if defined?(@parent_name)
         @parent_name = parent_names.find { |name| params["#{name}_id"] }
         if @parent_name.nil?
           # get any polymorphic parents through :as association inspection
@@ -267,7 +266,7 @@ module Resourceful
             end
           end
         else
-          @parent_class_name = params["#{parent_name}_type"]
+          @parent_class_name = params["#{@parent_name}_type"]
           @polymorphic_parent = !@parent_class_name.nil?
         end
         @parent_name
