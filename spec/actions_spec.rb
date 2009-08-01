@@ -10,7 +10,7 @@ describe Resourceful::Default::Actions, " index action" do
   after(:each) { @controller.index }
 
   it "should load the object collection" do
-    #@controller.expects(:load_objects)
+    @controller.expects(:load_objects)
   end
 
   it "should call the before :index callback" do
@@ -32,7 +32,7 @@ describe Resourceful::Default::Actions, " show action" do
   after(:each) { @controller.show }
   
   it "should load the instance object" do
-    #@controller.expects(:load_object)
+    @controller.expects(:load_object)
   end
 
   it "should call the before :show callback" do
@@ -128,7 +128,7 @@ describe Resourceful::Default::Actions, " successful update action" do
   after(:each) { @controller.update }
 
   it "should load the instance object" do
-    #@controller.expects(:load_object)
+    @controller.expects(:load_object)
   end
 
   it "should call the before :update callback" do
@@ -242,7 +242,7 @@ describe Resourceful::Default::Actions, " edit action" do
   after(:each) { @controller.edit }
 
   it "should load the instance object" do
-    #@controller.expects(:load_object)
+    @controller.expects(:load_object)
   end
 
   it "should call the before :edit callback" do
@@ -267,7 +267,7 @@ describe Resourceful::Default::Actions, " successful destroy action" do
   after(:each) { @controller.destroy }
 
   it "should load the instance object" do
-    #@controller.expects(:load_object)
+    @controller.expects(:load_object)
   end
 
   it "should call the before :destroy callback" do
