@@ -155,13 +155,13 @@ module RailsMocks
     controller.instance_variable_get("@#{name}")
   end
 
-  def redirect_to(opts)
-    Spec::Rails::Matchers::RedirectTo.new(request, opts)
-  end
-
-  def render_template(path)
-    Spec::Rails::Matchers::RenderTemplate.new(path.to_s, @controller)
-  end
+#  def redirect_to(opts)
+#    Spec::Rails::Matchers::RedirectTo.new(request, opts)
+#  end
+#
+#  def render_template(path)
+#    Spec::Rails::Matchers::RenderTemplate.new(path.to_s, @controller)
+#  end
 
   private
 
