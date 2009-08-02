@@ -1,8 +1,10 @@
 $: << File.dirname(__FILE__) + '/../lib'
 
 require 'rubygems'
+
 %w[spec rails/version action_pack active_record resourceful/maker
-   action_controller action_controller/test_process action_controller/integration].each &method(:require)
+   action_controller action_controller/test_process action_controller/integration
+   active_support/test_case spec/rails/matchers spec/rails/mocks].each &method(:require)
 
 Spec::Runner.configure do |config|
   config.mock_with :mocha
