@@ -71,7 +71,6 @@ module Resourceful
           
           response_for(:create_fails) do |format|
             format.html do
-              set_default_flash :error, I18n.t('make_resourceful.create.fails', :default => "There was a problem!")
               render :action => :new, :status => 422
             end
             format.js
@@ -87,7 +86,6 @@ module Resourceful
           
           response_for(:update_fails) do |format|
             format.html do
-              set_default_flash :error, I18n.t('make_resourceful.update.fails', :default => "There was a problem saving!")
               render :action => :edit, :status => 422
             end
             format.js
