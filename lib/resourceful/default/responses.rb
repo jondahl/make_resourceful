@@ -58,10 +58,7 @@ module Resourceful
           end
 
           response_for(:show_fails) do |format|
-            not_found = Proc.new { render :text => I18n.t('make_resourceful.show.fails', :default => "No item found"), :status => 404 }
-            format.html &not_found
-            format.js &not_found
-            format.xml &not_found
+            raise $!
           end
 
           response_for(:create) do |format|
