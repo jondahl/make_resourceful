@@ -15,6 +15,18 @@ Of course, no controller _only_ uses the defaults.
 So make_resourceful can be massively customized,
 while still keeping your controllers trim and readable.
 
+h1. What's with this version?
+
+make_resourceful is an under-loved plugin. The "official" release (by hcatlin) has an annoyance: it doesn't handle shallow routes well (e.g. if a Create action is nested by a parent record, the plugin assumes that the Show action will also be nested by a parent record, which is not true if you specify :shallow routes.)
+
+This is a fork of kosmas58's fork, which fixes this problem and appears to improve a few other things (like i18n).
+
+My fork fixes my two big annoyances with make_resourceful.
+
+1. If a :show page errors out, the exception is rescued and the plain text "No item found" is printed. Seriously? Why would anyone want that behavior? Why not just let ActiveRecord::RecordNotFound do its magic (exception locally, 404 page remotely)?
+
+2. When a create or update fails, presumably due to an invalid record, MR by default prints a Flash message that says "There was a problem!" But 9 times out of 10, that ends up being redundant with form error messages, and the combined effect of a flash message, an error block ("3 errors prevented this..."), and highlighting of the invalid fields ends up being an eyesore. So this version removes the default "There was a problem!" flash message. If you want that, you can add it via :create_fails and :update_fails yourself.
+
 h1. Get it!
 Rails
 
